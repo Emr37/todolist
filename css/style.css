@@ -62,10 +62,14 @@ ul li.checked::before {
 
 }
 
-i:hover{
-  background-color: #eee;
+.fa-times:hover{
   color: black;
 }
+
+.fa-check:hover{
+  color: black
+}
+
 
 .header {
   background-color: #f78501;
