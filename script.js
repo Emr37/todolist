@@ -3,13 +3,14 @@ const input = document.getElementById("task");
 const deleteAll = document.querySelector("#btnDeleteAll");
 const taskList = document.querySelector("#task-list");
 const alertEmpty = document.getElementById("alertEmpty");
+const alertAdded = document.getElementById("alertAdded");
 const alertDone = document.getElementById("alertDone");
 const closeIcon = document.getElementsByClassName("close");
 let items;
 
 
-
 loadItems();
+
 
 eventListeners();
 
@@ -25,6 +26,7 @@ function loadItems() {
     items.forEach(function (item) {
         createItem(item);
     });
+    
 }
 function getItemsFromLS() {
     if (localStorage.getItem("items") === null) {
@@ -35,17 +37,19 @@ function getItemsFromLS() {
     return items;
 }
 
-function setItemToLS(text) {
+function setItemToLS({text, completed}) {
     items = getItemsFromLS();
-    items.push(text);
+
+    items.push({text, completed});
     localStorage.setItem("items", JSON.stringify(items));
 
 }
 
+
 function deleteItemFromLS(text) {
     items = getItemsFromLS();
     items.forEach(function (item, index) {
-        if (item === text) {
+        if (item.text === text) {
             items.splice(index, 1);
         }
     });
@@ -54,14 +58,22 @@ function deleteItemFromLS(text) {
 
 }
 
-function createItem(text) {
+
+function createItem(e) {
 
     const li = document.createElement("li");
-    li.className = "list-group-item list-group-item-secondary";
-    li.appendChild(document.createTextNode(text));
+
+    if(e.completed === true){
+        li.className = "list-group-item list-group-item-secondary checked";
+    }else if (e.completed === false){
+        li.className = "list-group-item list-group-item-secondary";
+    }
+    
+    li.appendChild(document.createTextNode(e.text));
+
 
     const b = document.createElement("a");
-    b.style = "color: #A0D995"
+    b.style = "color: black"
     b.className = "check-item float-left mx-5";
     b.setAttribute("href", "#");
     b.innerHTML = '<i class="fa fa-check"></i>'
@@ -70,7 +82,7 @@ function createItem(text) {
 
 
     const x = document.createElement("a");
-    x.style = "color: #f78501"
+    x.style = "color: black";
     x.className = "delete-item float-right mx-5";
     x.setAttribute("href", "#");
     x.innerHTML = '<i class="fas fa-times"></i>'
@@ -79,16 +91,20 @@ function createItem(text) {
 
     taskList.appendChild(li);
 
-    let timer;
 
     console.log("Listeye eklendi.");
-    alertDone.classList.add("show");
+
+
+    alertAdded.classList.add("show");
 
     setTimeout(() => {
-        alertDone.classList.remove("show");
-    }, 5000);
+        alertAdded.classList.remove("show");
+    }, 3000);
+
+    
 
 }
+
 
 
 
@@ -98,24 +114,57 @@ function addNewItem(e) {
         let timer;
 
         console.log("Listeye boş ekleme yapamazsınız");
+
         alertEmpty.classList.add("show");
 
         setTimeout(() => {
             alertEmpty.classList.remove("show");
-        }, 5000);
+
+        }, 3000);
+
+
+
 
         return;
 
     }
 
-    createItem(input.value);
+    createItem({text: input.value, completed:false});
 
-    setItemToLS(input.value);
+    setItemToLS({text: input.value, completed:false});
+
+
 
     input.value = "";
 
     e.preventDefault();
+
 }
+function completedItem(e){
+    if (e.target.className === "fa fa-check") {
+
+        items = getItemsFromLS();
+        items.forEach(function (item) {
+            if (item.text === e.target.parentElement.parentElement.textContent) {
+                item.completed = true;
+            }
+        });
+    
+        localStorage.setItem("items", JSON.stringify(items));
+    
+        
+            alertDone.classList.add("show");
+
+            setTimeout(() => {
+                alertDone.classList.remove("show");
+            }, 3000); 
+    }
+
+
+}
+
+
+
 
 function deleteItem(e) {
     if (e.target.className === "fas fa-times") {

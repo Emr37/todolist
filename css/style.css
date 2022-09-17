@@ -31,23 +31,12 @@ ul li:hover {
 }
 
 ul li.checked {
-  background: #276678;
+  background: #f78501;
   color: #fff;
   text-decoration: line-through;
 }
 
-ul li.checked::before {
-  content: "";
-  position: absolute;
-  border-color: #fff;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 10px;
-  left: 16px;
-  transform: rotate(45deg);
-  height: 15px;
-  width: 7px;
-}
+
 
 .close {
   position: absolute;
@@ -63,11 +52,11 @@ ul li.checked::before {
 }
 
 .fa-times:hover{
-  color: black;
+  color: red;
 }
 
 .fa-check:hover{
-  color: black
+  color: #A0D995
 }
 
 
