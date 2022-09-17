@@ -5,7 +5,7 @@ const taskList = document.querySelector("#task-list");
 const alertEmpty = document.getElementById("alertEmpty");
 const alertAdded = document.getElementById("alertAdded");
 const alertDone = document.getElementById("alertDone");
-const closeIcon = document.getElementsByClassName("close");
+const alertEreased = document.getElementById("alertEreased");
 let items;
 
 
@@ -92,15 +92,9 @@ function createItem(e) {
     taskList.appendChild(li);
 
 
-    console.log("Listeye eklendi.");
 
 
-    alertAdded.classList.add("show");
-
-    setTimeout(() => {
-        alertAdded.classList.remove("show");
-    }, 3000);
-
+    
     
 
 }
@@ -113,7 +107,6 @@ function addNewItem(e) {
     if (input.value === "") {
         let timer;
 
-        console.log("Listeye boş ekleme yapamazsınız");
 
         alertEmpty.classList.add("show");
 
@@ -133,6 +126,13 @@ function addNewItem(e) {
 
     setItemToLS({text: input.value, completed:false});
 
+
+
+    alertAdded.classList.add("show");
+
+    setTimeout(() => {
+        alertAdded.classList.remove("show");
+    }, 3000);
 
 
     input.value = "";
@@ -172,6 +172,12 @@ function deleteItem(e) {
             e.target.parentElement.parentElement.remove();
 
             deleteItemFromLS(e.target.parentElement.parentElement.textContent);
+
+            alertEreased.classList.add("show");
+
+    setTimeout(() => {
+        alertEreased.classList.remove("show");
+    }, 3000);
 
 
         }
