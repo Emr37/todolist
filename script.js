@@ -143,6 +143,10 @@ function addNewItem(e) {
 function completedItem(e){
     if (e.target.className === "fa fa-check") {
 
+        confirm("Görevi tamamlamak üzeresiniz!")
+
+        e.target.parentElement.parentElement.classList.add("checked");
+        
         items = getItemsFromLS();
         items.forEach(function (item) {
             if (item.text === e.target.parentElement.parentElement.textContent) {
